@@ -7,5 +7,5 @@ data class Stat(
     val type: TransactionTypeEnum? = null,
     val category: TransactionCategoryEnum? = null,
     val amount: Int,
-    val transactionNumber: Int
+    val transactionNumber: Int? = null
 )

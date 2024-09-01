@@ -11,17 +11,18 @@ import javax.inject.Inject
 class GetGeneralStatsUseCase @Inject constructor(
     private val transactionRepository: ITransactionLocalDataSource
 ) {
-    operator fun invoke(): Flow<Triple<Stat, Stat, Stat>> =
+    operator fun invoke(): Flow<List<Stat>> =
         transactionRepository.getTransactions()
             .mapToGeneralStat()
 }
 
-private fun Flow<List<Transaction>>.mapToGeneralStat(): Flow<Triple<Stat, Stat, Stat>> {
+private fun Flow<List<Transaction>>.mapToGeneralStat(): Flow<List<Stat>> {
     return this.map(transform = { transactions ->
         val transactionsByType: Map<TransactionTypeEnum, List<Transaction>> =
             transactions.groupBy(keySelector = { it.type })
 
-        val expenditureTransactions: List<Transaction> = transactionsByType[TransactionTypeEnum.EXPENDITURE] ?: emptyList()
+        val expenditureTransactions: List<Transaction> =
+            transactionsByType[TransactionTypeEnum.EXPENDITURE] ?: emptyList()
         val expenditureGeneralStat: Stat = Stat(
             type = TransactionTypeEnum.EXPENDITURE,
             amount = expenditureTransactions.sumOf(selector = { transaction: Transaction ->
@@ -30,14 +31,8 @@ private fun Flow<List<Transaction>>.mapToGeneralStat(): Flow<Triple<Stat, Stat, 
             transactionNumber = expenditureTransactions.size
         )
 
-        val balanceGeneralStat: Stat = Stat(
-            amount = transactions.sumOf(selector = { transaction: Transaction ->
-                transaction.amount
-            }),
-            transactionNumber = transactions.size
-        )
-
-        val incomeTransactions: List<Transaction> = transactionsByType[TransactionTypeEnum.INCOME] ?: emptyList()
+        val incomeTransactions: List<Transaction> =
+            transactionsByType[TransactionTypeEnum.INCOME] ?: emptyList()
         val incomeGeneralStat: Stat = Stat(
             type = TransactionTypeEnum.INCOME,
             amount = incomeTransactions.sumOf(selector = { transaction: Transaction ->
@@ -46,7 +41,11 @@ private fun Flow<List<Transaction>>.mapToGeneralStat(): Flow<Triple<Stat, Stat, 
             transactionNumber = incomeTransactions.size
         )
 
-        Triple(
+        val balanceGeneralStat: Stat = Stat(
+            amount = incomeGeneralStat.amount - expenditureGeneralStat.amount
+        )
+
+        listOf(
             expenditureGeneralStat,
             balanceGeneralStat,
             incomeGeneralStat

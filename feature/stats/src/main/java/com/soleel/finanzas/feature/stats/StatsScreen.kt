@@ -3,9 +3,12 @@ package com.soleel.finanzas.feature.stats
 import android.content.Context
 import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -43,6 +47,7 @@ import com.soleel.finanzas.core.model.enums.TransactionCategoryEnum
 import com.soleel.finanzas.core.model.enums.TransactionTypeEnum
 import com.soleel.finanzas.core.ui.R
 import com.soleel.finanzas.domain.transformation.visualtransformation.CurrencyVisualTransformation
+import java.time.LocalDate
 
 
 @Composable
@@ -97,17 +102,16 @@ fun StatsScreen(
 @Composable
 fun StatsSuccessScreenPreview() {
     StatsSuccessScreen(
-        generalStats = Triple<Stat, Stat, Stat>(
-            first = Stat(
+        generalStats = listOf<Stat>(
+            Stat(
                 type = TransactionTypeEnum.EXPENDITURE,
                 amount = 50000,
                 transactionNumber = 3
             ),
-            second = Stat(
-                amount = 50000,
-                transactionNumber = 10
+            Stat(
+                amount = 50000
             ),
-            third = Stat(
+            Stat(
                 type = TransactionTypeEnum.INCOME,
                 amount = 100000,
                 transactionNumber = 7
@@ -129,8 +133,52 @@ fun StatsSuccessScreenPreview() {
                     category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
                     amount = 200000,
                     transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
                 )
-
             ),
             second = listOf(
                 Stat(
@@ -147,93 +195,208 @@ fun StatsSuccessScreenPreview() {
                     category = TransactionCategoryEnum.INCOME_SERVICE,
                     amount = 200000,
                     transactionNumber = 16
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
+                ),
+                Stat(
+                    category = TransactionCategoryEnum.EXPENDITURE_ACQUISITION,
+                    amount = 200000,
+                    transactionNumber = 90
                 )
             )
         )
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun StatsSuccessScreen(
-    generalStats: Triple<Stat, Stat, Stat>,
+    generalStats: List<Stat>,
     categoryStats: Pair<List<Stat>, List<Stat>>
 ) {
     val currencyVisualTransformation by remember(calculation = {
         mutableStateOf(CurrencyVisualTransformation(currencyCode = "USD"))
     })
 
-    // TODO: Todos los elementos tienen que pasar a  ser items de un LazyColumn
-
-    Column(
+    LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 72.dp),
+        content = {
+            item(
+                content = {
+                    Text(
+                        text = "Estadisticas generales",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(
+                            start = 8.dp,
+                            top = 16.dp,
+                            end = 8.dp,
+                            bottom = 8.dp
+                        )
+                    )
+                }
+            )
+
+            items(
+                items = generalStats,
+                itemContent = { generalStat: Stat ->
+                    GeneralStat(
+                        type = generalStat.type,
+                        amount = currencyVisualTransformation.filter(
+                            AnnotatedString(
+                                text = generalStat.amount.toString()
+                            )
+                        ).text.toString(),
+                        transactionsNumber = generalStat.transactionNumber
+                    )
+                }
+            )
+
+//            item(
+//                content = {
+//                    Text(
+//                        text = "Estadisticas por categorias",
+//                        style = MaterialTheme.typography.titleLarge,
+//                        modifier = Modifier.padding(
+//                            start = 8.dp,
+//                            top = 16.dp,
+//                            end = 8.dp
+////                            bottom = 8.dp
+//                        )
+//                    )
+//                }
+//            )
+
+
+            stickyHeader(
+                content = {
+                    Text(
+                        text = "Estadisticas por categorias",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(
+                            start = 8.dp,
+                            top = 16.dp,
+                            end = 8.dp
+//                            bottom = 8.dp
+                        )
+                    )
+
+                    CategoryStatsGroupTitle(title = "Categorias de gastos")
+                }
+            )
+
+            items(
+                items = categoryStats.first,
+                itemContent = { categoryStat: Stat ->
+                    CategoryStat(
+                        categoryIcon = categoryStat.category?.icon ?: R.drawable.ic_balance,
+                        categoryName = categoryStat.category?.value ?: "",
+                        amount = currencyVisualTransformation.filter(
+                            AnnotatedString(
+                                text = categoryStat.amount.toString()
+                            )
+                        ).text.toString(),
+                        transactionsNumber = categoryStat.transactionNumber,
+                    )
+                }
+            )
+
+            stickyHeader(
+                content = {
+                    CategoryStatsGroupTitle(title = "Categorias de ingresos")
+                }
+            )
+
+            items(
+                items = categoryStats.second,
+                itemContent = { categoryStat: Stat ->
+                    CategoryStat(
+                        categoryIcon = categoryStat.category?.icon ?: R.drawable.ic_balance,
+                        categoryName = categoryStat.category?.value ?: "",
+                        amount = currencyVisualTransformation.filter(
+                            AnnotatedString(
+                                text = categoryStat.amount.toString()
+                            )
+                        ).text.toString(),
+                        transactionsNumber = categoryStat.transactionNumber,
+                    )
+                }
+            )
+
+        }
+    )
+}
+
+@Composable
+private fun CategoryStatsGroupTitle(
+    title: String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background),
+        horizontalArrangement = Arrangement.Start,
         content = {
             Text(
-                text = "Estadisticas generales",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 8.dp, bottom = 8.dp)
-            )
-
-            GeneralStat(
-                typeIcon = generalStats.first.type?.icon ?: R.drawable.ic_balance,
-                typeName = generalStats.first.type?.value ?: "Balance",
-                amount = currencyVisualTransformation.filter(
-                    AnnotatedString(
-                        text = generalStats.first.amount.toString()
-                    )
-                ).text.toString(),
-                transactionsNumber = generalStats.first.transactionNumber
-            )
-
-            GeneralStat(
-                typeIcon = R.drawable.ic_balance,
-                typeName = "Balance",
-                amount = currencyVisualTransformation.filter(
-                    AnnotatedString(
-                        text = generalStats.second.amount.toString()
-                    )
-                ).text.toString()
-            )
-
-            GeneralStat(
-                typeIcon = generalStats.third.type?.icon ?: R.drawable.ic_balance,
-                typeName = generalStats.third.type?.value ?: "Balance",
-                amount = currencyVisualTransformation.filter(
-                    AnnotatedString(
-                        text = generalStats.third.amount.toString()
-                    )
-                ).text.toString(),
-                transactionsNumber = generalStats.third.transactionNumber
-            )
-
-            Text(
-                text = "Estadisticas por categorias",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 8.dp, bottom = 8.dp)
-            )
-
-            if (categoryStats.first.isNotEmpty()) {
-                CategoryStatsList(
-                    title = "Categorias de gastos",
-                    stats = categoryStats.first,
-                    currencyVisualTransformation = currencyVisualTransformation
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(
+                    start = 8.dp,
+                    top = 8.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
                 )
-            }
-
-            if (categoryStats.second.isNotEmpty()) {
-                CategoryStatsList(
-                    title = "Categorias de ingresos",
-                    stats = categoryStats.second,
-                    currencyVisualTransformation = currencyVisualTransformation
-                )
-            }
+            )
         }
     )
 }
 
 @Composable
 fun GeneralStat(
-    typeIcon: Int,
-    typeName: String,
+    type: TransactionTypeEnum?,
     amount: String,
     transactionsNumber: Int? = null
 ) {
@@ -253,12 +416,12 @@ fun GeneralStat(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         content = {
                             Icon(
-                                painter = painterResource(id = typeIcon),
+                                painter = painterResource(id = type?.icon ?: R.drawable.ic_balance),
                                 contentDescription = "Account type",
                                 modifier = Modifier.size(48.dp)
                             )
                             Text(
-                                text = typeName,
+                                text = type?.value ?: "Balance",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -280,47 +443,10 @@ fun GeneralStat(
                                 )
                             } else {
                                 Text(
-                                    text = "Dinero disponible",
+                                    text = "Monto disponible",
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                             }
-                        }
-                    )
-                }
-            )
-        }
-    )
-}
-
-@Composable
-fun CategoryStatsList(
-    title: String,
-    stats: List<Stat>,
-    currencyVisualTransformation: CurrencyVisualTransformation
-) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 8.dp, bottom = 8.dp)
-    )
-
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        content = {
-            stats.forEach(
-                action = { stat ->
-                    item(
-                        content = {
-                            CategoryStat(
-                                categoryIcon = stat.category?.icon ?: R.drawable.ic_balance,
-                                categoryName = stat.category?.value ?: "",
-                                amount = currencyVisualTransformation.filter(
-                                    AnnotatedString(
-                                        text = stat.amount.toString()
-                                    )
-                                ).text.toString(),
-                                transactionsNumber = stat.transactionNumber,
-                            )
                         }
                     )
                 }
@@ -334,7 +460,7 @@ fun CategoryStat(
     categoryIcon: Int,
     categoryName: String,
     amount: String,
-    transactionsNumber: Int
+    transactionsNumber: Int? = null
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -388,7 +514,6 @@ fun CategoryStat(
                                     .padding(start = 8.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 content = {
-
                                     Text(
                                         text = "$transactionsNumber transacciones",
                                         style = MaterialTheme.typography.bodyMedium

@@ -34,8 +34,8 @@ private fun Flow<List<Transaction>>.mapToCategoryStat(): Flow<Pair<List<Stat>, L
             })
 
         Pair<List<Stat>, List<Stat>>(
-            statsByType[TransactionTypeEnum.INCOME].orEmpty(),
-            statsByType[TransactionTypeEnum.EXPENDITURE].orEmpty()
+            statsByType[TransactionTypeEnum.EXPENDITURE].orEmpty(),
+            statsByType[TransactionTypeEnum.INCOME].orEmpty()
         )
     })
 }

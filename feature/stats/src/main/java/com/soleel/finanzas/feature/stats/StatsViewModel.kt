@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 sealed interface StatsUiState {
     data class Success(
-        val generalStats: Triple<Stat, Stat, Stat>,
+        val generalStats: List<Stat>,
         val categoryStats: Pair<List<Stat>, List<Stat>>
     ) : StatsUiState
 
@@ -56,7 +56,7 @@ class StatsViewModel @Inject constructor(
     }
 
     private fun getStatUiState(
-        generalStatResult: Result<Triple<Stat, Stat, Stat>>,
+        generalStatResult: Result<List<Stat>>,
         categoryStatResult: Result<Pair<List<Stat>, List<Stat>>>
     ): StatsUiState {
         return when {
